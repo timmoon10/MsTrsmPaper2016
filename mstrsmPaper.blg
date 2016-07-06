@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2014)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: mstrsmPaper.aux
+The style file: plain.bst
+Database file #1: main.bib
+Warning--empty journal in bai1989conditioning
+You've used 23 entries,
+            2118 wiz_defined-function locations,
+            626 strings with 7902 characters,
+and the built_in function-call counts, 8002 in all, are:
+= -- 785
+> -- 420
+< -- 3
++ -- 170
+- -- 142
+* -- 592
+:= -- 1354
+add.period$ -- 72
+call.type$ -- 23
+change.case$ -- 139
+chr.to.int$ -- 0
+cite$ -- 24
+duplicate$ -- 282
+empty$ -- 594
+format.name$ -- 142
+if$ -- 1641
+int.to.chr$ -- 0
+int.to.str$ -- 23
+missing$ -- 25
+newline$ -- 118
+num.names$ -- 46
+pop$ -- 142
+preamble$ -- 1
+purify$ -- 117
+quote$ -- 0
+skip$ -- 186
+stack$ -- 0
+substring$ -- 470
+swap$ -- 46
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 84
+warning$ -- 1
+while$ -- 78
+width$ -- 25
+write$ -- 254
+(There was 1 warning)

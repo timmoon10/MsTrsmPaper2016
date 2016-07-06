@@ -1,0 +1,139 @@
+\begin{thebibliography}{10}
+
+\bibitem{anderson1999lapack}
+E~Anderson, Z~Bai, C~Bischof, S~Blackford, J~Demmel, J~Dongarra, J~Du~Croz,
+  A~Greenbaum, S~Hammarling, A~McKenney, and D~Sorensen.
+\newblock {\em {LAPACK} Users' Guide}.
+\newblock Society for Industrial and Applied Mathematics, Philadelphia, PA,
+  third edition, 1999.
+
+\bibitem{anderson1991robust}
+Edward Anderson.
+\newblock {\em Robust triangular solves for use in condition estimation}.
+\newblock University of Tennessee. Computer Science Department, 1991.
+
+\bibitem{bai1989conditioning}
+Z~Bai, James Demmel, and A~McKenney.
+\newblock On the conditioning of the nonsymmetric eigenproblem: Theory and
+  software.
+\newblock 1989.
+
+\bibitem{braman2002multishift1}
+Karen Braman, Ralph Byers, and Roy Mathias.
+\newblock The multishift {QR} algorithm. part {I}: Maintaining well-focused
+  shifts and level 3 performance.
+\newblock {\em SIAM Journal on Matrix Analysis and Applications},
+  23(4):929--947, 2002.
+
+\bibitem{braman2002multishift2}
+Karen Braman, Ralph Byers, and Roy Mathias.
+\newblock The multishift {QR} algorithm. part {II}: Aggressive early deflation.
+\newblock {\em SIAM Journal on Matrix Analysis and Applications},
+  23(4):948--973, 2002.
+
+\bibitem{dongarra1990algorithm}
+Jack~J Dongarra, Jermey~Du Cruz, Sven Hammerling, and Iain~S Duff.
+\newblock Algorithm 679: A set of level 3 basic linear algebra subprograms:
+  model implementation and test programs.
+\newblock {\em ACM Transactions on Mathematical Software}, 16(1):18--28, 1990.
+
+\bibitem{dongarra1990set}
+Jack~J Dongarra, Jeremy Du~Croz, Sven Hammarling, and Iain~S Duff.
+\newblock A set of level 3 basic linear algebra subprograms.
+\newblock {\em ACM Transactions on Mathematical Software}, 16(1):1--17, 1990.
+
+\bibitem{dongarra1988algorithm}
+Jack~J Dongarra, Jeremy Du~Croz, Sven Hammarling, and Richard~J Hanson.
+\newblock Algorithm 656: an extended set of basic linear algebra subprograms:
+  model implementation and test programs.
+\newblock {\em ACM Transactions on Mathematical Software}, 14(1):18--32, 1988.
+
+\bibitem{dongarra1988extended}
+Jack~J Dongarra, Jeremy Du~Croz, Sven Hammarling, and Richard~J Hanson.
+\newblock An extended set of {Fortran} basic linear algebra subroutines.
+\newblock {\em ACM Transactions on Mathematical Software}, 14(1):1--17, 1988.
+
+\bibitem{fox1961resonant}
+Arthur~G Fox and Tingye Li.
+\newblock Resonant modes in a maser interferometer.
+\newblock {\em Bell System Technical Journal}, 40(2):453--488, 1961.
+
+\bibitem{gates2014accelerating}
+Mark Gates, Azzam Haidar, and Jack Dongarra.
+\newblock Accelerating computation of eigenvectors in the dense nonsymmetric
+  eigenvalue problem.
+\newblock In {\em High Performance Computing for Computational Science--VECPAR
+  2014}, pages 182--191. Springer, 2014.
+
+\bibitem{golub2012matrix}
+Gene~H Golub and Charles~F Van~Loan.
+\newblock {\em Matrix Computations}.
+\newblock The John Hopkins University Press, 4 edition, 2013.
+
+\bibitem{higham2000block}
+Nicholas~J Higham and Fran{\c{c}}oise Tisseur.
+\newblock A block algorithm for matrix 1-norm estimation, with an application
+  to 1-norm pseudospectra.
+\newblock {\em SIAM Journal on Matrix Analysis and Applications},
+  21(4):1185--1201, 2000.
+
+\bibitem{lawson1979basic}
+Chuck~L Lawson, Richard~J. Hanson, David~R Kincaid, and Fred~T. Krogh.
+\newblock Basic linear algebra subprograms for {Fortran} usage.
+\newblock {\em ACM Transactions on Mathematical Software}, 5(3):308--323, 1979.
+
+\bibitem{lui1997computation}
+SH~Lui.
+\newblock Computation of pseudospectra by continuation.
+\newblock {\em SIAM Journal on Scientific Computing}, 18(2):565--573, 1997.
+
+\bibitem{poulson2013elemental}
+Jack Poulson, Bryan Marker, Robert~A Van~de Geijn, Jeff~R Hammond, and
+  Nichols~A Romero.
+\newblock Elemental: A new framework for distributed memory dense matrix
+  computations.
+\newblock {\em ACM Transactions on Mathematical Software}, 39(2):13, 2013.
+
+\bibitem{quintana2006improving}
+Gregorio Quintana-Ort{\'\i} and Robert van~de Geijn.
+\newblock Improving the performance of reduction to {Hessenberg} form.
+\newblock {\em ACM Transactions on Mathematical Software}, 32(2):180--194,
+  2006.
+
+\bibitem{trefethen2005spectra}
+Lloyd~Nicholas Trefethen and Mark Embree.
+\newblock {\em Spectra and Pseudospectra: The Behavior of Nonnormal Matrices
+  and Operators}.
+\newblock Princeton University Press, 2005.
+
+\bibitem{van1984near}
+Charles Van~Loan.
+\newblock How near is a stable matrix to an unstable matrix?
+\newblock Technical report, Cornell University, 1984.
+
+\bibitem{wang2013augem}
+Qian Wang, Xianyi Zhang, Yunquan Zhang, and Qing Yi.
+\newblock {AUGEM}: automatically generate high performance dense linear algebra
+  kernels on x86 {CPUs}.
+\newblock In {\em Proceedings of the International Conference on High
+  Performance Computing, Networking, Storage and Analysis}, page~25. ACM, 2013.
+
+\bibitem{whaley2005minimizing}
+R~Clint Whaley and Antoine Petitet.
+\newblock Minimizing development and maintenance costs in supporting
+  persistently optimized {BLAS}.
+\newblock {\em Software: Practice and Experience}, 35(2):101--121, 2005.
+
+\bibitem{wright2002eigtool}
+Thomas~G Wright.
+\newblock {EigTool}.
+\newblock \url{http://www.comlab.ox.ac.uk/pseudospectra/eigtool/}, 2002.
+
+\bibitem{zhang2012model}
+Xianyi Zhang, Qian Wang, and Yunquan Zhang.
+\newblock Model-driven level 3 {BLAS} performance optimization on {Loongson 3A}
+  processor.
+\newblock In {\em 2012 IEEE 18th International Conference on Parallel and
+  Distributed Systems}, pages 684--691. IEEE, 2012.
+
+\end{thebibliography}
