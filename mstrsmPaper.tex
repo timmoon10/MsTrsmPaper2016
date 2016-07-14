@@ -355,7 +355,7 @@ numerical issues:
     \Procedure{SafeMultiShiftTrsm}{$U, \lambda, B, s $}
     \Comment \(B\) is overwritten with \(X\)
 
-    \State \(s := \left[1, \cdots, 1 \right]^T\)
+    \State \(s := \left[1, \cdots, 1 \right]^T\) \Comment \(n\) entries
 
     \For{$j=1:n$}
 
@@ -383,7 +383,7 @@ numerical issues:
 
     \State \(B(\mathcal{I}_2,j) := t*B(\mathcal{I}_2,j)\)
 
-    \State \(s := t * s\)
+    \State \(s(j) := t * s(j)\)
 
     \State \(G(j) := t * G(j)\)
 
@@ -401,7 +401,7 @@ numerical issues:
 
     \State \(B(:,j) := t * B(:,j)\)
 
-    \State \(s := t* s\)
+    \State \(s(j) := t* s(j)\)
 
     \State \(G(j) := t * G(j)\)    
 
@@ -422,6 +422,54 @@ Note that each application of \textsc{SafeTrsv} requires norms of the
 columns of \(U(\mathcal{I}_1,\mathcal{I}_1)\), excluding the diagonal,
 in order to form growth bounds. Thus, we can improve performance in
 the diagonal block step by reusing this data for each right-hand side.
+
+\section{Generalized Multi-Shift Triangular Solve}
+We introduce a final, generalized variant of the multi-shift
+triangular solve problem. Given \(m\times m\) upper triangular
+matrices \(U\) and \(V\), right-hand side vectors \(b_1,\cdots,b_n\),
+and shifts \(\lambda_1,\cdots,\lambda_n\), we seek nonzero solution
+vectors \(x_1,\cdots,x_n\) such that
+\begin{align}
+  \left( U - \lambda_j V \right) x_j &= b_j .
+\end{align}
+This problem can be solved with a slight modification of Algorithm
+\ref{algorithm:multi-shift trsm}:
+\begin{algorithm}[H]
+  \label{algorithm:generalized multi-shift trsm}
+  \caption{Generalized multi-shift triangular solve with blocked back substitution}
+  \begin{algorithmic}
+    \Procedure{GeneralizedMultiShiftTrsm}{$U, V, \lambda, B $}
+    \Comment \(B\) is overwritten with \(X\)
+
+    \For{$i = m-n_b+1:-n_b:1$} \Comment Assume \(m\) is a multiple of
+    \(n_b\)
+
+    \State \( \mathcal{I}_0 := 1:i-1 \)
+
+    \State \( \mathcal{I}_1 := i:i+n_b-1\)
+    
+    \For{$j=1:n$}
+
+    \State \(U' := U(\mathcal{I}_1,\mathcal{I}_1)-\lambda(j) * V(\mathcal{I}_1,\mathcal{I}_1)\) \Comment \texttt{xAXPY}
+
+    \State \Call{Trsv}{$U', B(\mathcal{I}_1,j)$} 
+    \Comment Diagonal block step (\texttt{xTRSV})
+
+    \State \( C(:,j) := \lambda(j) * B(\mathcal{I}_1,j)\) \Comment \texttt{xSCAL}
+
+    \EndFor
+
+    \State \( B(\mathcal{I}_0,:) := B(\mathcal{I}_0,:) - U(\mathcal{I}_0,\mathcal{I}_1) * B(\mathcal{I}_1,:) \)
+    \Comment Substitution step (\texttt{xGEMM})
+
+    \State \( B(\mathcal{I}_0,:) := B(\mathcal{I}_0,:) + V(\mathcal{I}_0,\mathcal{I}_1)* C \) \Comment \texttt{xGEMM}
+
+    \EndFor
+
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+\noindent
 
 \section{Eigenvector Computation} \label{section:eigenvector}
 We shall now apply a safe multi-shift triangular solve to compute the

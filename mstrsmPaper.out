@@ -1,12 +1,13 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Multi-shift Triangular Solve}{}% 2
 \BOOKMARK [1][-]{section.3}{Safe Multi-Shift Triangular Solve}{}% 3
-\BOOKMARK [1][-]{section.4}{Eigenvector Computation}{}% 4
-\BOOKMARK [1][-]{section.5}{Pseudospectra Computation}{}% 5
-\BOOKMARK [1][-]{section.6}{Implementation}{}% 6
-\BOOKMARK [1][-]{section.7}{Experimental Results}{}% 7
-\BOOKMARK [2][-]{subsection.7.1}{Multi-shift Triangular Solve}{section.7}% 8
-\BOOKMARK [2][-]{subsection.7.2}{Eigenvector Computation}{section.7}% 9
-\BOOKMARK [2][-]{subsection.7.3}{Pseudospectra Computation}{section.7}% 10
-\BOOKMARK [1][-]{section.8}{Conclusion}{}% 11
-\BOOKMARK [1][-]{section.9}{Acknowledgments}{}% 12
+\BOOKMARK [1][-]{section.4}{Generalized Multi-Shift Triangular Solve}{}% 4
+\BOOKMARK [1][-]{section.5}{Eigenvector Computation}{}% 5
+\BOOKMARK [1][-]{section.6}{Pseudospectra Computation}{}% 6
+\BOOKMARK [1][-]{section.7}{Implementation}{}% 7
+\BOOKMARK [1][-]{section.8}{Experimental Results}{}% 8
+\BOOKMARK [2][-]{subsection.8.1}{Multi-shift Triangular Solve}{section.8}% 9
+\BOOKMARK [2][-]{subsection.8.2}{Eigenvector Computation}{section.8}% 10
+\BOOKMARK [2][-]{subsection.8.3}{Pseudospectra Computation}{section.8}% 11
+\BOOKMARK [1][-]{section.9}{Conclusion}{}% 12
+\BOOKMARK [1][-]{section.10}{Acknowledgments}{}% 13
