@@ -107,8 +107,8 @@ stable and implemented in the Level 2 BLAS routine
 \texttt{xTRSV}. However, given a block size \(n_b\), we can apply a
 blocked algorithm \cite{golub2012matrix}:
 \begin{algorithm}[H]
-  \label{algorithm:trsm}
   \caption{Triangular solve with blocked back substitution}
+  \label{algorithm:trsm}
   \begin{algorithmic}
     \Procedure{Trsm}{$U,B$}
     \Comment \(B\) is overwritten with \(X\)
@@ -158,8 +158,8 @@ matrices only differ in the diagonal entries. This implies we can use
 blocked back substitution with a modification to the diagonal block
 step:
 \begin{algorithm}[H]
-  \label{algorithm:multi-shift trsm}
   \caption{Multi-shift triangular solve with blocked back substitution}
+  \label{algorithm:multi-shift trsm}
   \begin{algorithmic}
     \Procedure{MultiShiftTrsm}{$U, \lambda, B $}
     \Comment \(B\) is overwritten with \(X\)
@@ -288,7 +288,7 @@ complete algorithm is outlined below:
 
     \State Choose \(t\in\left(0,1\right)\) so that \(t* M< \Omega\)
 
-    \State \(b := t * b\)
+    \State \(b := t * b\) \Comment \texttt{xSCAL}
 
     \State \(s := t * s\)
 
@@ -306,7 +306,7 @@ complete algorithm is outlined below:
 
     \State Choose \(t\in\left(0,1\right)\) so that \(t *G < \Omega\)
 
-    \State \(b := t *b\)
+    \State \(b := t *b\) \Comment \texttt{xSCAL}
 
     \State \(s := t *s\)
 
@@ -349,8 +349,8 @@ For safeguarded, blocked back substitution, we just need to ensure
 that the matrix multiplications in the substitution step do not cause
 numerical issues:
 \begin{algorithm}[H]
-  \label{algorithm:safe multi-shift trsm}
   \caption{Safe multi-shift triangular solve with safeguarded, blocked back substitution }
+  \label{algorithm:safe multi-shift trsm}
   \begin{algorithmic}
     \Procedure{SafeMultiShiftTrsm}{$U, \lambda, B, s $}
     \Comment \(B\) is overwritten with \(X\)
@@ -379,9 +379,9 @@ numerical issues:
 
     \If{$t<1$}
 
-    \State \(B(\mathcal{I}_0,j) := t*B(\mathcal{I}_0,j)\)
+    \State \(B(\mathcal{I}_0,j) := t*B(\mathcal{I}_0,j)\) \Comment \texttt{xSCAL}
 
-    \State \(B(\mathcal{I}_2,j) := t*B(\mathcal{I}_2,j)\)
+    \State \(B(\mathcal{I}_2,j) := t*B(\mathcal{I}_2,j)\) \Comment \texttt{xSCAL}
 
     \State \(s(j) := t * s(j)\)
 
@@ -399,7 +399,7 @@ numerical issues:
 
     \State Choose \(t\in\left(0,1\right)\) so that \(t * G(j) < \Omega\)
 
-    \State \(B(:,j) := t * B(:,j)\)
+    \State \(B(:,j) := t * B(:,j)\) \Comment \texttt{xSCAL}
 
     \State \(s(j) := t* s(j)\)
 
@@ -422,54 +422,6 @@ Note that each application of \textsc{SafeTrsv} requires norms of the
 columns of \(U(\mathcal{I}_1,\mathcal{I}_1)\), excluding the diagonal,
 in order to form growth bounds. Thus, we can improve performance in
 the diagonal block step by reusing this data for each right-hand side.
-
-\section{Generalized Multi-Shift Triangular Solve}
-We introduce a final, generalized variant of the multi-shift
-triangular solve problem. Given \(m\times m\) upper triangular
-matrices \(U\) and \(V\), right-hand side vectors \(b_1,\cdots,b_n\),
-and shifts \(\lambda_1,\cdots,\lambda_n\), we seek nonzero solution
-vectors \(x_1,\cdots,x_n\) such that
-\begin{align}
-  \left( U - \lambda_j V \right) x_j &= b_j .
-\end{align}
-This problem can be solved with a slight modification of Algorithm
-\ref{algorithm:multi-shift trsm}:
-\begin{algorithm}[H]
-  \label{algorithm:generalized multi-shift trsm}
-  \caption{Generalized multi-shift triangular solve with blocked back substitution}
-  \begin{algorithmic}
-    \Procedure{GeneralizedMultiShiftTrsm}{$U, V, \lambda, B $}
-    \Comment \(B\) is overwritten with \(X\)
-
-    \For{$i = m-n_b+1:-n_b:1$} \Comment Assume \(m\) is a multiple of
-    \(n_b\)
-
-    \State \( \mathcal{I}_0 := 1:i-1 \)
-
-    \State \( \mathcal{I}_1 := i:i+n_b-1\)
-    
-    \For{$j=1:n$}
-
-    \State \(U' := U(\mathcal{I}_1,\mathcal{I}_1)-\lambda(j) * V(\mathcal{I}_1,\mathcal{I}_1)\) \Comment \texttt{xAXPY}
-
-    \State \Call{Trsv}{$U', B(\mathcal{I}_1,j)$} 
-    \Comment Diagonal block step (\texttt{xTRSV})
-
-    \State \( C(:,j) := \lambda(j) * B(\mathcal{I}_1,j)\) \Comment \texttt{xSCAL}
-
-    \EndFor
-
-    \State \( B(\mathcal{I}_0,:) := B(\mathcal{I}_0,:) - U(\mathcal{I}_0,\mathcal{I}_1) * B(\mathcal{I}_1,:) \)
-    \Comment Substitution step (\texttt{xGEMM})
-
-    \State \( B(\mathcal{I}_0,:) := B(\mathcal{I}_0,:) + V(\mathcal{I}_0,\mathcal{I}_1)* C \) \Comment \texttt{xGEMM}
-
-    \EndFor
-
-    \EndProcedure
-  \end{algorithmic}
-\end{algorithm}
-\noindent
 
 \section{Eigenvector Computation} \label{section:eigenvector}
 We shall now apply a safe multi-shift triangular solve to compute the
@@ -562,7 +514,7 @@ computing a safe multi-shift triangular solve, the triangular
 eigenvectors are obtained by putting the scaling factors on the
 diagonal of the solution matrix. The algorithm is outlined below:
 \begin{algorithm}[H]
-  \caption{Triangular and general eigensolver}
+  \caption{Triangular and general eigensolvers}
   \label{algorithm:eig}
   \begin{algorithmic}
     
@@ -689,8 +641,8 @@ largest eigenvalue of \(\left( T-zI \right)^{-H} \left( T-zI
 product can be computed with two triangular solves, for a total cost
 of \(O(n^2)\) flops. The algorithm is outlined below:
 \begin{algorithm}[H]
-  \label{algorithm:van loan/lui}
   \caption{Van Loan/Lui algorithm}
+  \label{algorithm:van loan/lui}
   \begin{algorithmic}
     \Function{VanLoanLui}{$A, z$}
 
@@ -900,6 +852,174 @@ implementations for inclusion into LAPACK.
 \section{Acknowledgments}
 Tim Moon was supported by a Simons Graduate Research Assistantship and
 Jack Poulson by AFRL Contract FA8750-12-2-0306.
+
+\appendix
+\section{Generalized Multi-Shift Triangular Solve}
+The multi-shift triangular solve problem can be generalized and
+applied to compute generalized eigenvectors. Given \(m\times m\) upper
+triangular matrices \(U\) and \(V\), right-hand side vectors
+\(b_1,\cdots,b_n\), and shifts \(\lambda_1,\cdots,\lambda_n\), we seek
+solution vectors \(x_1,\cdots,x_n\) such that
+\begin{align}
+  \left( U - \lambda_j V \right) x_j &= b_j .
+\end{align}
+This problem can be solved with small modifications to Algorithm
+\ref{algorithm:multi-shift trsm}:
+\begin{algorithm}[H]
+  \caption{Generalized multi-shift triangular solve with blocked back substitution}
+  \label{algorithm:generalized multi-shift trsm}
+  \begin{algorithmic}
+    \Procedure{GeneralizedMultiShiftTrsm}{$U, V, \lambda, B $}
+    \Comment \parbox[t]{0.22\linewidth}{\(B\) is overwritten with \(X\)}
+
+    \For{$i = m-n_b+1:-n_b:1$} \Comment Assume \(m\) is a multiple of
+    \(n_b\)
+
+    \State \( \mathcal{I}_0 := 1:i-1 \)
+
+    \State \( \mathcal{I}_1 := i:i+n_b-1\)
+    
+    \For{$j=1:n$}
+
+    \State \(U' := U(\mathcal{I}_1,\mathcal{I}_1)-\lambda(j) * V(\mathcal{I}_1,\mathcal{I}_1)\) \Comment \texttt{xAXPY}
+
+    \State \Call{Trsv}{$U', B(\mathcal{I}_1,j)$} 
+    \Comment \texttt{xTRSV}
+
+    \State \( C(:,j) := \lambda(j) * B(\mathcal{I}_1,j)\) \Comment \texttt{xSCAL}
+
+    \EndFor
+
+    \State \( B(\mathcal{I}_0,:) := B(\mathcal{I}_0,:) - U(\mathcal{I}_0,\mathcal{I}_1) * B(\mathcal{I}_1,:) \)
+    \Comment \texttt{xGEMM}
+
+    \State \( B(\mathcal{I}_0,:) := B(\mathcal{I}_0,:) + V(\mathcal{I}_0,\mathcal{I}_1)* C \) \Comment \texttt{xGEMM}
+
+    \EndFor
+
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+\noindent
+Making similar changes to Algorithm \ref{algorithm:safe multi-shift
+  trsm} yields a robust algorithm:
+\begin{algorithm}[H]
+  \caption{Safe, generalized multi-shift triangular solve with
+    safeguarded, blocked back substitution }
+  \label{algorithm:safe generalized multi-shift trsm}
+  \begin{algorithmic}
+    \Procedure{SafeGeneralizedMultiShiftTrsm}{$U, V, \lambda, B, s $}
+    \Comment \parbox[t]{0.13\linewidth}{\(B\) is overwritten with \(X\)}
+
+    \State \(s := \left[1, \cdots, 1 \right]^T\) \Comment \(n\) entries
+
+    \For{$j=1:n$}
+
+    \State \( G(j) := \left\lVert B(:,j) \right\rVert_\infty\)
+
+    \EndFor
+
+    \For{$i = m-n_b+1:-n_b:1$} \Comment Assume \(m\) is a multiple of
+    \(n_b\)
+
+    \State \( \mathcal{I}_0 := 1:i-1 \)
+
+    \State \( \mathcal{I}_1 := i:i+n_b-1\)
+
+    \State \( \mathcal{I}_2 := i+n_b:m\)
+    
+    \For{$j=1:n$}
+
+    \State \(U' := U(\mathcal{I}_1, \mathcal{I}_1) - \lambda(j) * V(\mathcal{I}_1, \mathcal{I}_1)\) \Comment\texttt{xAXPY}
+
+    \State \Call{SafeTrsv}{$U', B(\mathcal{I}_1,j), t$} 
+    \Comment Diagonal block step
+
+    \If{$t<1$}
+
+    \State \(B(\mathcal{I}_0,j) := t*B(\mathcal{I}_0,j)\) \Comment \texttt{xSCAL}
+
+    \State \(B(\mathcal{I}_2,j) := t*B(\mathcal{I}_2,j)\) \Comment \texttt{xSCAL}
+
+    \State \(s(j) := t * s(j)\)
+
+    \State \(G(j) := t * G(j)\)
+
+    \EndIf
+
+    \State \(C(:,j) := \lambda(j) * B(\mathcal{I}_1,j)\) \Comment \texttt{xSCAL}
+
+    \EndFor
+
+    \For{$j=1:n$}
+
+    \State \(G(j) := G(j) + \sum_{k\in \mathcal{I}_1} \left( \left\lVert U(\mathcal{I}_0,k) \right\rVert_{\infty} + \left| \lambda(j)\right|  {\left\lVert V(\mathcal{I}_0,k)\right\rVert}_\infty \right) \left\lVert B(\mathcal{I}_1,j) \right\rVert_\infty \)
+
+    \If{$G(j) \geq \Omega$}
+
+    \State Choose \(t\in\left(0,1\right)\) so that \(t * G(j) < \Omega\)
+
+    \State \(B(:,j) := t * B(:,j)\) \Comment \texttt{xSCAL}
+
+    \State \(s(j) := t* s(j)\)
+
+    \State \(G(j) := t * G(j)\)    
+
+    \EndIf
+
+    \EndFor
+
+    \State \( B(\mathcal{I}_0,:) := B(\mathcal{I}_0,:) - U(\mathcal{I}_0,\mathcal{I}_1) * B(\mathcal{I}_1,:) \)
+    \Comment \texttt{xGEMM}
+
+    \State \( B(\mathcal{I}_0,:) := B(\mathcal{I}_0,:) + V(\mathcal{I}_0,\mathcal{I}_1) * C \)
+    \Comment \texttt{xGEMM}
+
+    \EndFor
+
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+\noindent
+This routine can be used to solve the generalized eigenvalue problem:
+\begin{algorithm}[H]
+  \caption{Generalized, triangular and generalized, general
+    eigensolvers}
+  \label{algorithm:eig}
+  \begin{algorithmic}
+    
+    \Function{GeneralizedTriangEig}{$T,S$}
+
+    \State \(\lambda := \text{diag}(T) ./ \text{diag}(S)\)
+
+    \State \(Z := -T + S * \text{diag}(\lambda)\)
+
+    \State \(\text{diag}(Z) := 0\)
+
+    \State \(s := \left[1,\cdots,1\right]^T\)
+
+    \State \Call{SafeGeneralizedMultiShiftTrsm}{$T,S, \lambda, Z, s$}
+
+    \State \(\text{diag}(Z) := s\)
+
+    \State \Return \(\lambda, Z\)
+
+    \EndFunction
+
+    \Function{GeneralizedEig}{$A$}
+
+    \State Compute generalized Schur decomposition \(A=QTP^H, B=QSP^H\)
+
+    \State \(\lambda, Z := \) \Call{GeneralizedTriangEig}{$T,S$}
+
+    \State \(X := P Z\) \Comment \texttt{xGEMM}
+
+    \State \Return \(\lambda, X\)
+
+    \EndFunction
+
+  \end{algorithmic}
+\end{algorithm}
 
 \bibliography{main}{}
 \bibliographystyle{plain}
