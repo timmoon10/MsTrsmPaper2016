@@ -18,6 +18,11 @@ Z~Bai, James Demmel, and A~McKenney.
   software.
 \newblock 1989.
 
+\bibitem{bischof1996parallel}
+Christian~H Bischof, Biswa~Nath Datta, and Avijit Purkayastha.
+\newblock A parallel algorithm for the {Sylvester} observer equation.
+\newblock {\em SIAM Journal on Scientific Computing}, 17(3):686--698, 1996.
+
 \bibitem{braman2002multishift1}
 Karen Braman, Ralph Byers, and Roy Mathias.
 \newblock The multishift {QR} algorithm. part {I}: Maintaining well-focused
@@ -70,6 +75,11 @@ Gene~H Golub and Charles~F Van~Loan.
 \newblock {\em Matrix Computations}.
 \newblock The John Hopkins University Press, 4 edition, 2013.
 
+\bibitem{henry1994shifted}
+Greg Henry.
+\newblock {\em The shifted {Hessenberg} system solve computation}.
+\newblock Citeseer, 1994.
+
 \bibitem{higham2000block}
 Nicholas~J Higham and Fran{\c{c}}oise Tisseur.
 \newblock A block algorithm for matrix 1-norm estimation, with an application
@@ -110,6 +120,11 @@ Lloyd~Nicholas Trefethen and Mark Embree.
 Charles Van~Loan.
 \newblock How near is a stable matrix to an unstable matrix?
 \newblock Technical report, Cornell University, 1984.
+
+\bibitem{van2015blis}
+Field~G Van~Zee and Robert~A Van De~Geijn.
+\newblock {BLIS}: A framework for rapidly instantiating {BLAS} functionality.
+\newblock {\em ACM Transactions on Mathematical Software}, 41(3):14, 2015.
 
 \bibitem{wang2013augem}
 Qian Wang, Xianyi Zhang, Yunquan Zhang, and Qing Yi.

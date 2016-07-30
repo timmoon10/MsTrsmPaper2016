@@ -147,8 +147,13 @@ BLAS routine \texttt{xTRSM}.
 
 \paragraph{}
 The multi-shift triangular solve problem is a variant of the standard
-triangular solve problem. Given scalar shifts
-\(\lambda_1,\cdots,\lambda_n\),
+triangular solve problem.\footnote{We remark that the multi-shift
+  Hessenberg solve problem has a very similar form, replacing the
+  upper triangular matrix with an upper Hessenberg one. This problem
+  can be solved by computing RQ factorizations and performing back
+  substitution \cite{henry1994shifted, bischof1996parallel}. Blocked
+  implementations are asymptotically dominated by Level 2 BLAS
+  routines.} Given scalar shifts \(\lambda_1,\cdots,\lambda_n\),
 we seek to solve \(n\) triangular systems of the form
 \begin{align}
   \left(U-\lambda_j I\right) x_j &= b_j.
